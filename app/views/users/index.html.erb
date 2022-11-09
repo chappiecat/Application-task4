@@ -1,0 +1,107 @@
+<div class= "container px-5 px-sm-0">
+  <div class= "row">
+    <div class= "col-md-3">
+
+<div>
+  <%= flash[:notice] %>
+</div>
+
+
+  <h1>User info</h1>
+  <div>
+     <%= image_tag @user.get_profile_image(100,100) %>
+  </div>
+
+  <table class="table">
+    <tbody>
+    <tr>
+      <td>Name</td>
+        <td><%= @user.name %></td>
+        </tr>
+        <tr>
+      <td>Introduction</td>
+      <td><%= @user.introduction %></td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class = "row">
+    <%= link_to edit_user_path(current_user.id), class: "btn btn-outline-secondary btn-block edit_user" do %>
+    <i class="fas fa-user-cog"></i>
+    <% end %>
+</div>
+
+
+
+
+<h1>New book</h1>
+
+<div>
+  <%= flash[:notice] %>
+</div>
+
+<% if @user.errors.any? %>
+  <%= @user.errors.count %>件のエラーが発生しました
+  <% end %>
+
+
+<%= form_with model: @book do |f| %>
+  <label for="inputTitle">Title</label><br>
+  <%= f.text_field :title, autofocus: true, id:"inputTitle", placeholder:"Title"%><br>
+
+
+  <label for="inputOpinion">Opinion</label><br>
+  <%= f.text_area :body, autofocus: true, id:"inputOpinion", placeholder:"Opinion"%><br>
+
+  <%= f.submit 'Create Book',class: "btn btn-success" %>
+<% end %>
+</div>
+
+
+
+
+<div class= "col-md-8 offset-md-1">
+
+<h1>Users</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>image</th>
+      <th>name</th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+
+  <tbody>
+
+    <% @users.each do |user| %>
+    <tr>
+      <td>
+    <%= image_tag user.get_profile_image(100, 100) %>
+
+      </td>
+
+      <td>
+      <%= link_to user_path(user.id) do %>
+      <%= user.name %>
+      <% end %>
+      </td>
+
+      <td><%= link_to "Show", user_path(user.id) %></td>
+    </tr>
+<% end %>
+
+
+<% if current_user.following?(user) %>
+  <%= link_to "フォロー外す", user_relationships_path(user.id), method: :delete %>
+<% else %>
+  <%= link_to "フォローする", user_relationships_path(user.id), method: :post %>
+<% end %>
+
+
+  </tbody>
+
+</table>
+</div>

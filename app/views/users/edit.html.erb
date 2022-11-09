@@ -1,0 +1,67 @@
+<body>
+<main>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-5 px-5 px-sm-0 mx-auto">
+      </div>
+      </div>
+      </div>
+
+      <% @user.errors.full_messages.each do |message| %>
+  <div class="form-error">
+     <%= message %>
+  </div>
+<% end %>
+
+<h1>User info</h1>
+
+<% if @user.errors.any? %>
+  <h3>
+  <%= @user.errors.count %>
+  error prohibited this obj from being saved:</h3>
+  <ul>
+    <% @user.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+<from enctype="multipart/from-data" action="/users"
+accept-charset="UTF-8" method="post">
+</from>
+
+<%= form_with model: @user, method: :patch do |f| %>
+<label class="col-12">
+                    Name
+                    <%= f.text_field :name, class: "form-control", value: @user.name %>
+                </label>
+                <label class="col-12">
+                    Image
+                    <br/>
+                    <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>
+                </label>
+                <label class="col-12">
+                    Introduction
+                    <%= f.text_area :introduction, class: "form-control", value: @user.introduction %>
+                </label>
+                <div>
+                    <%= f.submit "Update User", class: "btn btn-secondary" %>
+                </div>
+            <% end %>
+
+
+
+</main>
+
+
+<footer>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="mx-auto">
+        <p>© Copy Right  Infratop.inc</p>
+        </div>
+        </div>
+        </div>
+</footer>
+</body>
